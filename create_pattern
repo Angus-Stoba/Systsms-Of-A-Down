@@ -9,7 +9,6 @@ usage()
 kset=0
 karg=0
 uset=0
-uarg=0
 
 while getopts "k:u" option; do
   case $option in
@@ -28,14 +27,12 @@ for (( i = 0; i <= n; i++ ))
 do
  p=$(($i+$karg))
  array2[$i]=${array1[$p]}
- echo "array2[i] p1= "${array2[$i]}" i = "$i
 done
 
 for (( i=n+1; i<=25; i++ ))
 do
  p=$(($i-$n-1))
  array2[$i]=${array1[$p]}
- echo "array2[i] p2= "${array2[$i]}" i = "$i
 done
 
 os="["${array2[0]}"-"${array2[$n]}${array2[$(($n+1))]}"-"${array2[25]}"]"
