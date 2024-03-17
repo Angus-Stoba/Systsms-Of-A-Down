@@ -20,3 +20,10 @@ while getopts "k:u" option; do
         ;;
   esac
 done
+
+
+## if ((uset == 1))
+## echo inputfile.txt | tr '[a-Z]' ./create_pattern -k $karg -u                   ## incorrect form
+## else
+## echo inputfile.txt | tr '[a-Z]' ./create_pattern -k $karg                      ## incorrect form
+## fi
