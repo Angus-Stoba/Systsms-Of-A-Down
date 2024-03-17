@@ -20,24 +20,25 @@ while getopts "k:u" option; do
   esac
 done
 
-n=$karg
-k=$((25-$n))
+n=$((25-$karg))
 
 array1=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
 
-for (( i = 0; i <= 25-n; i++ ))
+for (( i = 0; i <= n; i++ ))
 do
- p=$(($i+$n))
+ p=$(($i+$karg))
  array2[$i]=${array1[$p]}
+ echo "array2[i] p1= "${array2[$i]}" i = "$i
 done
 
-for (( i=k+1; i<=25; i++ ))
+for (( i=n+1; i<=25; i++ ))
 do
- p=$(($i-$k))
+ p=$(($i-$n-1))
  array2[$i]=${array1[$p]}
+ echo "array2[i] p2= "${array2[$i]}" i = "$i
 done
 
-os="["${array2[0]}"-"${array2[$k]}${array2[$(($k+1))]}"-"${array2[25]}"]"
+os="["${array2[0]}"-"${array2[$n]}${array2[$(($n+1))]}"-"${array2[25]}"]"
 pps=$os
 
 if (( uset==1 ))
