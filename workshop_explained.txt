@@ -46,7 +46,3 @@ chmod <perm> <file> - changes permisions of a file
         e.g. chmod 'u+x' <file> - grants execute functionality for user on file
         
         e.g.2. chmod 'g-w' <file> - removed writing functionality from group on file
-
-
-
-
