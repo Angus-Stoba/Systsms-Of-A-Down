@@ -1,0 +1,7 @@
+The rain in Spain
+falls mainly
+one the Plain
+Really?
+My fair lady?
+zzzzzzzzzzzzzzzzz || to output the first 3 alphabetically ordered lines we use
+zzzzzzzzzzzzzzzzz || sort -b -f -d text1.txt | head -- lines=3
