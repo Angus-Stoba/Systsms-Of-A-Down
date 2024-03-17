@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+usage()
+{
+  echo "Usage: $0 [ -k SHIFT ] [-u]" 
+  exit 2
+}
+
+kset=0
+karg=0
+uset=0
+uarg=0
+
+while getopts "k:u" option; do
+  case $option in
+    (k) kset=1
+        karg=$OPTARG;;
+    (u) uset=1
+        ;;
+  esac
+done

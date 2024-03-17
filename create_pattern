@@ -1,0 +1,48 @@
+#!/bin/bash
+
+usage()
+{
+  echo "Usage: $0 [ -k SHIFT ] [-u]" 
+  exit 2
+}
+
+kset=0
+karg=0
+uset=0
+uarg=0
+
+while getopts "k:u" option; do
+  case $option in
+    (k) kset=1
+        karg=$OPTARG;;
+    (u) uset=1
+        ;;
+  esac
+done
+
+n=$karg
+k=$((25-$n))
+
+array1=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+
+for (( i = 0; i <= 25-n; i++ ))
+do
+ p=$(($i+$n))
+ array2[$i]=${array1[$p]}
+done
+
+for (( i=k+1; i<=25; i++ ))
+do
+ p=$(($i-$k))
+ array2[$i]=${array1[$p]}
+done
+
+os="["${array2[0]}"-"${array2[$k]}${array2[$(($k+1))]}"-"${array2[25]}"]"
+pps=$os
+
+if (( uset==1 ))
+then
+    echo $pps | tr '[a-z]' '[A-Z]'
+else
+    echo $pps
+fi
