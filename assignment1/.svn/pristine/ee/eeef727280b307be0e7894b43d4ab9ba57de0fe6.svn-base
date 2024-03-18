@@ -18,14 +18,14 @@ while getopts "k:u" option; do
   esac
 done
 
-echo ${./create_pattern -k $karg -u}
 
-#if ((uset == 1));
-#  echo ${./create_pattern -k $karg -u};
-#else
-#  echo ${./create_pattern -k $karg};
-#fi
 
-#echo $caesarPattern
+if ((uset == 1))
+  echo ${./create_pattern -k $karg -u}
+else
+  echo ${./create_pattern -k $karg}
+fi
+
+echo $caesarPattern
 
 ## echo input_text | tr '[a-Z]' $caesarPattern
