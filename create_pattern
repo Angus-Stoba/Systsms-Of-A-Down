@@ -25,14 +25,14 @@ alphabetArray=(a b c d e f g h i j k l m n o p q r s t u v w x y z) # it's the a
 ## Loop for the range between 0 and n, to be formatted as the cipher [pos[0]-pos[n]...] where pos[n] = z | e.g. [f-z...]
 for (( i = 0; i <= n; i++ ))
 do
- posShift=$(($i+$cipherShift))
+ p=$(($i+$cipherShift))
  cipheredArray[$i]=${alphabetArray[$p]} 
 done
 
 ## Loop for the range between n+1 and 25, put onto the end of the cipher pattern as [pos[0]-pos[n]pos[n+1]-pos[25]] where pos[n+1] = a | e.g. [f-za-e]
 for (( i=n+1; i<=25; i++ ))
 do
- posShift=$(($i-$n-1))
+ p=$(($i-$n-1))
  cipheredArray[$i]=${alphabetArray[$p]}
 done
 
