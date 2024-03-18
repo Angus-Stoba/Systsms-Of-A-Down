@@ -1,0 +1,15 @@
+#!/bin/bash
+i=0
+for val in $@; do 
+    i=$(($i+1))
+    echo $i"= "$val
+done
+
+if (( $i < 9 ))
+then
+    for (( $i; $i < 9; i++ ))
+    do
+        i=$(($i+1))
+        echo $i"= "
+    done
+fi

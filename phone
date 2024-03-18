@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while read p;
+do 
+    echo "${p}" | grep $1
+done < phonebook.txt

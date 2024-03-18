@@ -1,0 +1,11 @@
+#!/bin/bash
+
+##size_stat=$(stat -f%z $1)
+
+size_wc=$(wc -c < "$1")
+
+size_ls=$(ls -l $1)
+
+##echo $size_stat
+echo $size_wc
+echo $size_ls | awk "{ print $5 }"
