@@ -6,41 +6,42 @@ usage()
   exit 2
 }
 
-kset=0
-karg=0
-uset=0
+## Initialising variables
+cipherShift=0
+uppercase=0
 
+## getops for the cipherShift (-k $OPTARG) and uppercase (-u)
 while getopts "k:u" option; do
   case $option in
-    (k) kset=1
-        karg=$OPTARG;;
-    (u) uset=1
-        ;;
+    (k) cipherShift=$OPTARG;;
+    (u) uppercase=1;;
   esac
 done
 
-n=$((25-$karg))
+n=$((25-$cipherShift))   # Calculates the pos where cipheredArray[$n]='z', cipheredArray[$(($n+1))]='a' for the caesar cipher shift of
 
-array1=(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+alphabetArray=(a b c d e f g h i j k l m n o p q r s t u v w x y z) # it's the alphabet in standard order all lowercase...
 
+## Loop for the range between 0 and n, to be formatted as the cipher [pos[0]-pos[n]...] where pos[n] = z | e.g. [f-z...]
 for (( i = 0; i <= n; i++ ))
 do
- p=$(($i+$karg))
- array2[$i]=${array1[$p]}
+ posShift=$(($i+$cipherShift))
+ cipheredArray[$i]=${alphabetArray[$p]} 
 done
 
+## Loop for the range between n+1 and 25, put onto the end of the cipher pattern as [pos[0]-pos[n]pos[n+1]-pos[25]] where pos[n+1] = a | e.g. [f-za-e]
 for (( i=n+1; i<=25; i++ ))
 do
- p=$(($i-$n-1))
- array2[$i]=${array1[$p]}
+ posShift=$(($i-$n-1))
+ cipheredArray[$i]=${alphabetArray[$p]}
 done
 
-os="["${array2[0]}"-"${array2[$n]}${array2[$(($n+1))]}"-"${array2[25]}"]"
-pps=$os
+## formatting the pattern for output
+pattern="["${cipheredArray[0]}"-"${cipheredArray[$n]}${cipheredArray[$(($n+1))]}"-"${cipheredArray[25]}"]"
 
-if (( uset==1 ))
+if (( uppercase == 1 )) # checks if uppercase (the -u argument) was triggered
 then
-    echo $pps | tr '[a-z]' '[A-Z]'
+  echo $pattern | tr '[a-z]' '[A-Z]' # translates [pattern to uppercase]
 else
-    echo $pps
+  echo $pattern
 fi
