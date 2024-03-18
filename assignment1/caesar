@@ -1,0 +1,31 @@
+#!/bin/bash
+
+usage()
+{
+  echo "Usage: $0 [ -k SHIFT ] [-u]" 
+  exit 2
+}
+
+## Initialising variables
+cipherShift=0
+uppercase=0
+
+## getops for the cipherShift (-k $OPTARG) and uppercase (-u)
+while getopts "k:u" option; do
+  case $option in
+    (k) cipherShift=$OPTARG;;
+    (u) uppercase=1;;
+  esac
+done
+
+
+
+if ((uset == 1))
+  echo ${./create_pattern -k $karg -u}
+else
+  echo ${./create_pattern -k $karg}
+fi
+
+echo $caesarPattern
+
+## echo input_text | tr '[a-Z]' $caesarPattern
