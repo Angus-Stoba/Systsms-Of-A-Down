@@ -18,7 +18,8 @@ while getopts "k:u" option; do
   esac
 done
 
-echo ${./create_pattern -k $karg -u}
+pattern = (./create_pattern -k $karg -u)
+echo $pattern
 
 #if ((uset == 1));
 #  echo ${./create_pattern -k $karg -u};
