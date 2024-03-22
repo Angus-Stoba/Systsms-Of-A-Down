@@ -14,16 +14,16 @@ done
 
 if (( uppercase == 1 ))
 then
-  #trPattern = echo $(exec ./create_pattern -k $cipherShift -u)
   while read line;
   do 
+    #prints line   #tr from lower to cap  #tr from cap to the new pattern
      echo ${line} | tr '[a-z]' '[A-Z]' | tr '[A-Z]' $(./create_pattern -k $cipherShift -u)
   done < a_file_full_of_text;
 
 else
-  #trPattern = echo $(exec ./create_pattern -k $cipherShift -u)
   while read line;
   do 
+    #prints line   #tr from cap to lower  #tr from cap to the new pattern
      echo ${line} | tr '[A-Z]' '[a-z]' | tr '[a-z]' $(./create_pattern -k $cipherShift)
   done < a_file_full_of_text;
 fi
