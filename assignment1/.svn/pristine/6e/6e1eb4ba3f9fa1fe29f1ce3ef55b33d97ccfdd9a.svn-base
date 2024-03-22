@@ -2,7 +2,7 @@
 
 usage()
 {
-  echo "Usage: $0 [ -k 'value' ] [ -u ]" 
+  echo "Usage: $0 [ -k SHIFT ] [-u]" 
   exit 2
 }
 
@@ -15,7 +15,6 @@ while getopts "k:u" option; do
   case $option in
     (k) cipherShift=$OPTARG;;
     (u) uppercase=1;;
-    (*) usage;;
   esac
 done
 
