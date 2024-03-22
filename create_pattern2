@@ -15,7 +15,7 @@ done
 alphabetArray=(a b c d e f g h i j k l m n o p q r s t u v w x y z) # it's the alphabet in standard order all lowercase...
 
 ## formatting the pattern for output
-pattern="["${alphabetArray[$cipherShift]}"-az-"${alphabetArray[$(($cipherShift-1))]}"]"
+pattern="["${alphabetArray[$cipherShift]}"-za-"${alphabetArray[$(($cipherShift-1))]}"]"
 
 if (( uppercase == 1 )) # checks if uppercase (the -u argument) was triggered
 then

@@ -5,5 +5,5 @@ fileInput=$1
 for (( i = 1; i <= 25; i++ ))
 do
     echo "Shift " $i
-    $(./caesar -k $i -u < $fileInput) 
+    echo $(./caesar -k $i -u < $fileInput) 
 done
