@@ -21,12 +21,14 @@ done
 
 echo "a"
 
+newPattern = exec ./create_pattern
+
 if (( uppercase == 1 ))
 then
   #trPattern = echo $(exec ./create_pattern -k $cipherShift -u)
   while read line;
   do 
-     echo ${line} | tr '[a-z]' '[A-Z]' > new_file.txt
+     echo ${line} | tr '[a-z]' '[A-Z]' | tr '[A-Z]' 
   done < a_file_full_of_text;
 
 else
