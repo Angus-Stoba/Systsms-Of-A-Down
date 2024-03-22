@@ -12,8 +12,6 @@ while getopts "k:u" option; do
   esac
 done
 
-n=$((25-$cipherShift))   # Calculates the pos where cipheredArray[$n]='z', cipheredArray[$(($n+1))]='a' for the caesar cipher shift of
-
 alphabetArray=(a b c d e f g h i j k l m n o p q r s t u v w x y z) # it's the alphabet in standard order all lowercase...
 
 ## formatting the pattern for output
