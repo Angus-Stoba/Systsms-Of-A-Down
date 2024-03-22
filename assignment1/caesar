@@ -1,15 +1,8 @@
 #!/bin/bash
 
-usage()
-{
-  echo "Usage: $0 [ -k SHIFT ] [-u]" 
-  exit 2
-}
-
 ## Initialising variables
 cipherShift=0
 uppercase=0
-
 
 ## getops for the cipherShift (-k $OPTARG) and uppercase (-u)
 while getopts "k:u" option; do
@@ -19,23 +12,18 @@ while getopts "k:u" option; do
   esac
 done
 
-echo "a"
-
-newPattern = exec ./create_pattern
-
 if (( uppercase == 1 ))
 then
   #trPattern = echo $(exec ./create_pattern -k $cipherShift -u)
   while read line;
   do 
-     echo ${line} | tr '[a-z]' '[A-Z]' | tr '[A-Z]' 
+     echo ${line} | tr '[a-z]' '[A-Z]' | tr '[A-Z]' $(./create_pattern -k $cipherShift -u)
   done < a_file_full_of_text;
 
 else
-  trPattern = exec ./create_pattern -k $cipherShift
+  #trPattern = echo $(exec ./create_pattern -k $cipherShift -u)
+  while read line;
+  do 
+     echo ${line} | tr '[A-Z]' '[a-z]' | tr '[a-z]' $(./create_pattern -k $cipherShift)
+  done < a_file_full_of_text;
 fi
-
-echo "b"
-
-echo $trPattern
-
