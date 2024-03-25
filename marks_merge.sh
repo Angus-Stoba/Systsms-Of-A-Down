@@ -7,7 +7,7 @@ if [ "$#" -lt 2 ]; then
 fi
 
 # Extract student numbers from each file and sort them
-student_numbers=$(cut -d ',' -f 1 "$@" | tail -n +2 | sort -u)
+studentNumbers=$(cut -d ',' -f 1 "$@" | tail -n +2 | sort -u)
 
 # Create the header line for the merged file
 header="number"
@@ -20,7 +20,7 @@ done
 echo "$header"
 
 # Loop through each student number and merge their marks
-for number in $student_numbers; do
+for number in $studentNumbers; do
     line="$number"
     for file in "$@"; do
         mark=$(grep "^$number," "$file" | cut -d ',' -f 2)
