@@ -5,7 +5,7 @@ if [ "$#" -lt 2 ]; then
     exit 1
 fi
 
-studentIDs=$(cut -d ',' -f 1 "$@" | tail -n +2 | sort -u)
+studentNumber=$(cut -d ',' -f 1 "$@" | tail -n +2 | sort -u)
 
 header="number"
 
@@ -15,7 +15,7 @@ done
 
 echo "$header"
 
-for number in $studentIDs; do
+for number in $studentNumber; do
     line="$number"
     for file in "$@"; do
         mark=$(grep "^$number," "$file" | cut -d ',' -f 2)
