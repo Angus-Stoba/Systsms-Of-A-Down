@@ -3,6 +3,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#if defined (_STDDEF_H) || defined (__need_NULL)
+#undef NULL		/* in case <stdio.h> has defined it. */
+#ifdef __GNUG__
+#define NULL __null
+#else   /* G++ */
+#ifndef __cplusplus
+#define NULL ((void *)0)
+#else   /* C++ */
+#define NULL 0
+#endif  /* C++ */
+#endif  /* G++ */
+#endif	/* NULL not defined and <stddef.h> or need NULL.  */
+#undef	__need_NULL
+
 //
 
 // allows a program to execute unix cmd which may be the
@@ -37,9 +51,7 @@ int run_unix(char command[100]);
 
 // -----------------------------------------------
 
-int input_file()
-
-{
+int input_file() {
 
 char ls_myString[gc_line_length];
 
@@ -57,9 +69,7 @@ char ls_myString[gc_line_length];
 
 // -----------------------------------------------
 
-int parse_string(char ls_string[gc_line_length])
-
-{
+int parse_string(char ls_string[gc_line_length]) {
 
     int result;
 
