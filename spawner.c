@@ -2,6 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stddef.h>
+
+#if defined (_STDDEF_H) || defined (__need_NULL)
+#undef NULL		/* in case <stdio.h> has defined it. */
+#ifdef __GNUG__
+#define NULL __null
+#else   /* G++ */
+#ifndef __cplusplus
+#define NULL ((void *)0)
+#else   /* C++ */
+#define NULL 0
+#endif  /* C++ */
+#endif  /* G++ */
+#endif	/* NULL not defined and <stddef.h> or need NULL.  */
+#undef	__need_NULL
 
 
 int main(int argc, char *argv[]) {
@@ -14,7 +29,7 @@ int main(int argc, char *argv[]) {
     int i = 0;
     args[i++] = command;
 
-    while ((args[i++] = strtok(0, s)) != 0){ // replace '0's with NULL
+    while ((args[i++] = strtok(NULL, s)) != NULL){ // replace '0's with NULL
         printf("s =  %s \n", args[i]);
         args[i++] = strtok(0, s);
     }
@@ -24,11 +39,11 @@ int main(int argc, char *argv[]) {
         printf("s =  %s \n", args[j]);
     }
     
-    /*
+    
     execvp(command, args);
     perror("execvp");
-    exit(1)
-    */
+    exit(1);
+    
     return 0;
 
 }
