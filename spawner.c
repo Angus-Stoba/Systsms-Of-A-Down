@@ -6,10 +6,10 @@
 #include <unistd.h>
 
 int main(int argc, char *argv[]) {
-    if (argc < 2) {
+    /*if (argc < 2) {
         fprintf(stderr, "Usage: %s \"command param1 param2 ...\"\n", argv[0]);
         exit(EXIT_FAILURE);
-    }
+    }*/
 
     char *command = strtok(argv[1], " "); // Get the command
     char *args[argc]; // Array to hold command and arguments
@@ -21,8 +21,8 @@ int main(int argc, char *argv[]) {
 
     // Replace the current process with the command
     execvp(command, args);
-    perror("execvp"); // If execvp fails
-    exit(EXIT_FAILURE);
+    //perror("execvp"); // If execvp fails
+    //exit(EXIT_FAILURE);
 
     return 0; // This line will never be reached
 }
