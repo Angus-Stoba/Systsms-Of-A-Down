@@ -1,107 +1,61 @@
-
-#include <string>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <string.h>
 
-#if defined (_STDDEF_H) || defined (__need_NULL)
-#undef NULL		/* in case <stdio.h> has defined it. */
-#ifdef __GNUG__
-#define NULL __null
-#else   /* G++ */
-#ifndef __cplusplus
-#define NULL ((void *)0)
-#else   /* C++ */
-#define NULL 0
-#endif  /* C++ */
-#endif  /* G++ */
-#endif	/* NULL not defined and <stddef.h> or need NULL.  */
-#undef	__need_NULL
+// Global values set by instructions
+#define MaxCharacters 256
+#define MaxArguments 10
+#define MaxLines 100
 
-//
+int parse_command(char *line, char *command, char **arguments) {
+    int argc = 0; // active tally of the number of args in the line
+    char *token = strtok(line, " \n"); // initialising first token
 
-// allows a program to execute unix cmd which may be the
+    if (token == NULL) { // when stdin is empty
+        return 0;
+    }
 
-// more usefule manner of say parsing
+    strcpy(command, token); // initialising the first token as command
+    arguments[argc++] = command; // making the first arg the command
+    
+    while ((token = strtok(NULL, " \n")) != NULL && argc < MaxArguments) { //
+        arguments[argc++] = token;
+    }
 
-//
+    arguments[argc] = NULL; // Null-terminate the argument list
 
-// to compile gcc file.c
-
-// to run ./file.exe
-
-//
-
-// global types
-
-const int  gc_line_length=256;
-
-const int  gc_max_arg=10;
-
-const char gc_print[2] = "%s";
-
-char* gs_strings[11];
-
-// prototypes
-
-int input_file();
-
-int parse_string(char ls_string[gc_line_length]);
-
-int run_unix(char command[100]);
-
-// -----------------------------------------------
-
-int input_file() {
-
-char ls_myString[gc_line_length];
-
-     while(fgets(ls_myString, gc_line_length, stdin))
-
-        {
-
-        parse_string(ls_myString);
-
-        }
-
-     return 0;
-
+    return 1; // Command parsed successfully
 }
 
-// -----------------------------------------------
+int main() {
+    char line[MaxCharacters];
+    char command[MaxCharacters];
+    char *arguments[MaxArguments + 1]; // +1 for NULL terminator
+    int num_commands = 0;
 
-int parse_string(char ls_string[gc_line_length]) {
+    while (fgets(line, sizeof(line), stdin) != NULL && num_commands < MaxLines) {
+        if (parse_command(line, command, arguments)) {
+            
+            pid_t pid = fork();
 
-    int result;
+            if (pid == 0) { // Child process
+                execvp(command, arguments);
+            } else { // Parent process
+                int status;
+                waitpid(pid, &status, 0);
 
-    int li_token_count;
+                if (WIFEXITED(status)) {
+                    printf("Command '%s' exited with status %d\n", command, WEXITSTATUS(status));
+                } else {
+                    printf("Command '%s' terminated abnormally\n", command);
+                }
+            }
 
-    char delimiters[] = " ";
-
-    printf(gc_print,ls_string);
-
-    char* token = strtok(ls_string, delimiters);
-
-    printf("Token: %s\n", token);
-
-    li_token_count = 0;
-
-    while (token != NULL) {
-
-        gs_strings[li_token_count]=token;
-
-        token = strtok(NULL, delimiters);
-
-        li_token_count = li_token_count + 1;
-
-        printf("Token: %s\n", token);
-
-        for (int i=0;i<li_token_count;i++)
-
-        {
-
-           printf("array: %s\n", gs_strings[i]);
-
+            num_commands++;
         }
-
     }
+
+    return 0;
 }
