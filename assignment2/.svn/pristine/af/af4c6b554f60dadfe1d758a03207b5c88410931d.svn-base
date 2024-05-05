@@ -1,0 +1,10 @@
+all: sequence pipeline
+
+sequence: sequence.c
+	gcc sequence.c -o sequence
+
+pipeline: pipeline.c
+	gcc pipeline.c -o pipeline
+	
+clean: 
+	rm *.x
