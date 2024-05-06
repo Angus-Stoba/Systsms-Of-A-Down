@@ -4,7 +4,7 @@
 #include <sys/wait.h>
 #include <string.h>
 
-// global values set by instructions
+// Global values set by instructions
 #define MaxCharacters 256
 #define MaxArguments 10
 #define MaxLines 100
@@ -24,7 +24,7 @@ int string_line(char* line, char* command, char** arguments) { // used to conver
         arguments[argc++] = token;
     }
 
-    arguments[argc] = NULL; // adding NULL as the final argument for later use
+    arguments[argc] = NULL; // Adding NULL as the final argument for later use
 
     return 1;
 }
@@ -41,11 +41,11 @@ int main() {
             
             pid_t pid = fork(); // fork to create child progresses
 
-            if (pid == -1) { // if fork errors
+            if (pid == -1) { // error id
                 perror("fork");
                 exit(EXIT_FAILURE);
             }
-            else if (pid == 0) { // child process
+            if (pid == 0) { // child process
                 execvp(command, arguments);
                 perror("execvp");
                 exit(EXIT_FAILURE);

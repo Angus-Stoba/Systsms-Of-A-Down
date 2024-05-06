@@ -24,9 +24,7 @@ int main() {
     int prev_pipe[2]; // Used to hold previous pipe
     int curr_pipe[2]; // Used to hold the current pipe
 
-    int i = 0;
-
-    while (i < num_commands){
+    for (int i = 0; i < num_commands; i++){
         // if curr pipe is invalid
         if (i < (num_commands - 1)) {
             if (pipe(curr_pipe) == -1) {
@@ -68,7 +66,6 @@ int main() {
                 prev_pipe[1] = curr_pipe[1];
             }
         }
-        i++;
     }
 
     if (prev_pipe[0] != -1) {
@@ -77,10 +74,8 @@ int main() {
         close(prev_pipe[1]); 
     }
 
-    int j = 0;
-    while (j < num_commands) {
-        wait(NULL); // waiting for all childs that are unresolved
-        j++;
+    for (int i = 0; i < num_commands; i++) {
+        wait(NULL);
     }
 
     return 0;

@@ -77,10 +77,8 @@ int main() {
         close(prev_pipe[1]); 
     }
 
-    int j = 0;
-    while (j < num_commands) {
-        wait(NULL); // waiting for all childs that are unresolved
-        j++;
+    for (int i = 0; i < num_commands; i++) {
+        wait(NULL);
     }
 
     return 0;

@@ -80,7 +80,6 @@ int main() {
     int j = 0;
     while (j < num_commands) {
         wait(NULL); // waiting for all childs that are unresolved
-        j++;
     }
 
     return 0;
