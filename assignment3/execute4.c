@@ -163,15 +163,13 @@ int pipeProcess(char *argv[]) // Finds pipe in command line, and forks according
 
         }               
         
-
     // dealing with glob                                                        || Part 3 || 
-    
     if (globCount > 0) {
         globbedArgs = globResults.gl_pathv;
         execute(globbedArgs);
         globfree(&globResults);
     } else {
-        globbedArgs = argv;
+        execute(argv);
     }
 
 }
