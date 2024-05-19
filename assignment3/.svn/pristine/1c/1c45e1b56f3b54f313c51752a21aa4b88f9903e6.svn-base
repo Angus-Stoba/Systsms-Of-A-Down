@@ -6,7 +6,6 @@
  *      pipeProcess function:
  *              finds pipes, nullifies them, and collects the commands + arguments accordingly to propaly work like a pipe
  * 
- * (ps the spacing is wide for some reason because my file believed tab is '        ' wide not '    ' wide.)
 */
 
 #include	<stdio.h>

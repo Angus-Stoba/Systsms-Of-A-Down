@@ -6,7 +6,6 @@
  *      pipeProcess function:
  *              finds pipes, nullifies them, and collects the commands + arguments accordingly to propaly work like a pipe
  * 
- * (ps the spacing is wide for some reason because my file believed tab is '        ' wide not '    ' wide.)
 */
 
 #include	<stdio.h>
@@ -92,7 +91,7 @@ int pipeProcess(char *argv[]) // Finds pipe in command line, and forks according
                                 close(pipefd[1]);
                                 dup2(pipefd[0], STDIN_FILENO);
                                 close(pipefd[0]);
-                                return pipeProcess(postCommand);        // temp fix for multi-pipes ( it messes with the prompt design )
+                                return pipeProcess(postCommand);         // temp fix for multi-pipes ( it messes with the prompt design )
                         }
 
                         close(pipefd[0]);
@@ -103,11 +102,55 @@ int pipeProcess(char *argv[]) // Finds pipe in command line, and forks according
                         return 0;
 
                 }
-                
+                else if (strcmp(argv[i], "<") == 0) { // when a redirect is found       || Part 2 ||    
+                        inputRedirect = 1;
+                        inputFile = argv[i + 1];
+                        argv[i] = NULL;
+                }
+                else if (strcmp(argv[i], ">") == 0) {
+                        outputRedirect = 1;
+                        outputFile = argv[i + 1];
+                        argv[i] = NULL;
+                }
+        i++;
+    }       
+    if (inputRedirect || outputRedirect) { // if either redirect occurs
+                if ((prePipe = fork()) == -1) { // create a fork
+                        perror("fork");
+                        return -1;
+                }   
+                if (prePipe == 0) { // child 
+                        if (inputRedirect) { // if "<" occured
+                                int redicectInTo = open(inputFile, O_RDONLY);
+                                if (redicectInTo < 0) {
+                                        perror("open");
+                                        exit(1);
+                                }
+                                dup2(redicectInTo, STDIN_FILENO);
+                                close(redicectInTo);
+                        }       
+                        if (outputRedirect) { // if ">" occured
+                                int redirectOutTo = open(outputFile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+                                if (redirectOutTo < 0) {
+                                        perror("open");
+                                        exit(1);
+                                }
+                                dup2(redirectOutTo, STDOUT_FILENO);
+                                close(redirectOutTo);
+                        }       
+                        execvp(argv[0], argv);
+                        perror("execvp");
+                        exit(1);
+                }
+                else { // parent
+                        waitpid(prePipe, NULL, 0);
+                        return 0;
+                }
+        
                 i++;
 
-        }       
-
+        }               
+        
         return execute(argv); 
 }
         
