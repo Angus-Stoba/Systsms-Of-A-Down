@@ -1,10 +1,7 @@
-/**  
- * 
- * 	Modified for part 1 ( and part 2 )
- * 
- * 	rather than calling to execute, it calls to "pipeProcess"
- * 
- * 
+/**  smsh1.c  small-shell version 1
+ **		first really useful version after prompting shell
+ **		this one parses the command line into strings
+ **		uses fork, exec, wait, and ignores signals
  **/
 
 #include	<stdio.h>
@@ -26,7 +23,7 @@ int main()
 
 	while ( (cmdline = next_cmd(prompt, stdin)) != NULL ){
 		if ( (arglist = splitline(cmdline)) != NULL  ){
-			result = pipeProcess(arglist);
+			result = execute(arglist);
 			freelist(arglist);
 		}
 		free(cmdline);
