@@ -165,17 +165,7 @@ int pipeProcess(char *argv[]) // Finds pipe in command line, and forks according
         
 
     // dealing with glob                                                        || Part 3 || 
-    for (i = 0; argv[i] != NULL; i++) {
-        if (strchr(argv[i], '*') || strchr(argv[i], '?') || strchr(argv[i], '[')) {
-            glob(argv[i], globFlags, NULL, &globResults);
-            globFlags |= GLOB_APPEND;
-            globCount += globResults.gl_pathc;
-        } else {
-            globResults.gl_pathv = realloc(globResults.gl_pathv, sizeof(char *) * (globCount + 2));
-            globResults.gl_pathv[globCount++] = argv[i];
-            globResults.gl_pathv[globCount] = NULL;
-        }
-    }
+    
     if (globCount > 0) {
         globbedArgs = globResults.gl_pathv;
         execute(globbedArgs);
@@ -183,8 +173,6 @@ int pipeProcess(char *argv[]) // Finds pipe in command line, and forks according
     } else {
         globbedArgs = argv;
     }
-    
-    return execute(globbedArgs);
 
 }
         
