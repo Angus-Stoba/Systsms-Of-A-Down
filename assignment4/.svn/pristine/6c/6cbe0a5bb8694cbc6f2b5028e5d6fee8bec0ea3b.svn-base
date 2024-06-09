@@ -1,0 +1,39 @@
+#include "slow_functions.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <pthread.h>
+#include <string.h>
+
+
+#if defined (_STDDEF_H) || defined (__need_NULL)
+#undef NULL		/* in case <stdio.h> has defined it. */
+#ifdef __GNUG__
+#define NULL __null
+#else   /* G++ */
+#ifndef __cplusplus
+#define NULL ((void *)0)
+#else   /* C++ */
+#define NULL 0
+#endif  /* C++ */
+#endif  /* G++ */
+#endif	/* NULL not defined and <stddef.h> or need NULL.  */
+#undef	__need_NULL
+
+
+void run_slowfunc10(){
+    pthread_t slow1;
+    for (int i = 0; i < 10; i++){
+        pthread_create(&slow1, NULL, &slow_function1, NULL);
+    }
+}
+
+int main()
+{
+    pthread_t slow2;
+    pthread_create(&slow2, NULL, &slow_function2, NULL);
+    run_slowfunc10();
+
+    pthread_join(slow2, NULL);
+
+    return 0;
+}

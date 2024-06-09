@@ -10,7 +10,6 @@ int total_commands = 0;
 // ####################################################################################
 // ## Please write some code in the following two functions
 
-// ================= SEE 'part1.c' FOR WHY THIS IS HERE =================
 #if defined (_STDDEF_H) || defined (__need_NULL)
 #undef NULL		/* in case <stdio.h> has defined it. */
 #ifdef __GNUG__
@@ -24,29 +23,26 @@ int total_commands = 0;
 #endif  /* G++ */
 #endif	/* NULL not defined and <stddef.h> or need NULL.  */
 #undef	__need_NULL
-// ======================================================================
 
 pthread_mutex_t lock;
 pthread_cond_t condition;
 
 void * writer(void * in_ptr)
 {
-	char** inputs = (char** )in_ptr; // converts void* type given from main, into a char** type
-	pthread_t thread_bw; // thread type for bad_write
+	char** inputs = (char** )in_ptr;
+	pthread_t thread_bw;
 	
-	for ( int loops = 0; loops < total_commands; loops++){ // for lines in [stdin]
+	for ( int loops = 0; loops < total_commands; loops++){
 		
-		pthread_mutex_lock(&lock); // locks between functions
+		pthread_mutex_lock(&lock);
 
-		while(get_written() != 0){ // when get_written() returns 0, bad_read has finished 
+		while(get_written() != 0){
 			pthread_cond_wait(&condition, &lock);
 		}	
 
-		// creating thread of bad_write, and waiting to finish
 		pthread_create(&thread_bw, NULL, bad_write, inputs[loops]);
 		pthread_join(thread_bw, NULL);
 
-		// Send signal to reader to start, then unlock mutex
 		pthread_cond_signal(&condition);
 		pthread_mutex_unlock(&lock);
 	};
@@ -56,22 +52,17 @@ void * writer(void * in_ptr)
 
 void * reader(void * empty)
 {
-	pthread_t thread_br; // thread type for bad_read
+	pthread_t thread_br;
 
-	for ( int loops = 0; loops < total_commands; loops++){ // for total lines in [stdin]
-
-		pthread_mutex_lock(&lock); // locks between functions
-		
-		while(get_written() != 1){ // when get_written() returns 1, bad_read has finished 
+	for ( int loops = 0; loops < total_commands; loops++){
+		pthread_mutex_lock(&lock);
+		while(get_written() != 1){
 			pthread_cond_wait(&condition, &lock);
 		}
 
-		// creating thread of bad_read, and waiting to finish
 		pthread_create(&thread_br, NULL, bad_read, NULL);
 		pthread_join(thread_br, NULL);
 
-
-		// Send signal to writer to start, then unlock mutex
 		pthread_cond_signal(&condition);
 		pthread_mutex_unlock(&lock);
 	};
